@@ -56,11 +56,11 @@ privmxEndpointInstallJni{
 
 ## License information
 
-PrivMX Endpoint Install Native.\
+PrivMX Endpoint Install Native. \
 Copyright © 2024 Simplito sp. z o.o.
 
 This file is part of the PrivMX Platform (https://privmx.dev). \
 This software is Licensed under the MIT License.
 
-PrivMX Endpoint and PrivMX Bridge are licensed under Licensed under the PrivMX Free License.\
+PrivMX Endpoint and PrivMX Bridge are licensed under the PrivMX Free License. \
 See the License for the specific language governing permissions and limitations under the License.
