@@ -24,9 +24,6 @@ abstract class PrivmxEndpointInstallNativePlugin : Plugin<Project> {
         ) {
             it.group = "privmx endpoint"
             it.description = "Download and unzip native privmx endpoint libraries"
-            it.doLast { _ ->
-                it.execute()
-            }
         }
         try {
             project.tasks.named("prepareKotlinBuildScriptModel").orNull?.dependsOn(task)
