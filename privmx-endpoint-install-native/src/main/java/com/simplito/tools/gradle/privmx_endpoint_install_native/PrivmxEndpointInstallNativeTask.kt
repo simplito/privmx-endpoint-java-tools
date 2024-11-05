@@ -56,7 +56,7 @@ abstract class PrivmxEndpointInstallNativeTask : DefaultTask(){
     @TaskAction
     fun execute(){
         if(version == null) throw IllegalArgumentException("Version is not specified")
-        val tmpDirectory: Directory = project.layout.projectDirectory.dir("build/tmp/privmxEndpoint/jniInstall/cache/libs")
+        val tmpDirectory: Directory = project.layout.projectDirectory.dir("build/tmp/privmxEndpoint/jniInstall/cache/libs/$version")
         Files.createDirectories(
             nativeLibDirectory.asFile.toPath()
         )
@@ -69,35 +69,18 @@ abstract class PrivmxEndpointInstallNativeTask : DefaultTask(){
         val isSingleOs = platforms.groupBy { it.os }.size == 1
         platforms.forEach { platform ->
             val formattedArchitecture = platform.architecture.replace("-","_")
-
-            val channelURL = if(channel == PrivmxEndpointChannel.MAIN.channel_name){
-                "https://builds.simplito.com/java/$channel/$version/${platform.os.lowercase()}-$formattedArchitecture/"
-            }else{
-                "https://builds.s24.simplito.com/java/$channel/$version/${platform.os.lowercase()}-$formattedArchitecture/"
+            val packageName = "${platform.os.lowercase()}-$formattedArchitecture.zip"
+            val zipFile = tmpDirectory.file(packageName).asFile
+            download.run {
+                it.src("https://github.com/simplito/privmx-endpoint-java/releases/download/$version/$packageName")
+                it.dest(zipFile)
             }
-            val html = URL(channelURL).readText()
-            val regex = """href="(.*\.zip)"""".toRegex()
-            regex.findAll(html).forEach { match ->
-                val packageName = match.groups[1]?.value
-                packageName?.let {
-                    println(packageName)
-                    val zipFile = tmpDirectory.file(packageName).asFile
-                    val containsVersion = zipFile.exists()
-                    if (!containsVersion) {
-                        download.run {
-                            it.src("$channelURL/$packageName")
-                            it.dest(zipFile)
-                        }
-                    }
-
-                    val unzipDir = nativeLibDirectory.dir(if (isSingleOs) platform.architecture else "${platform.os}/${platform.architecture}")
-                    val tree = project.zipTree(project.resources.gzip(zipFile.toPath()))
-                    if(tree.any { !unzipDir.file(it.name).asFile.exists() }) {
-                        project.copy {
-                            it.from(tree)
-                            it.into(unzipDir.asFile.toPath())
-                        }
-                    }
+            val unzipDir = nativeLibDirectory.dir(if (isSingleOs) platform.architecture else "${platform.os}/${platform.architecture}")
+            val tree = project.zipTree(project.resources.gzip(zipFile.toPath()))
+            if(tree.any { !unzipDir.file(it.name).asFile.exists() }) {
+                project.copy {
+                    it.from(tree)
+                    it.into(unzipDir.asFile.toPath())
                 }
             }
         }
