@@ -1,0 +1,107 @@
+name: Bug report
+description: Create a report to help us improve
+title: "[BUG]: "
+labels: [ 'bug' ]
+assignees:
+  - "djenczewski"
+body:
+  - type: textarea
+    id: Description
+    attributes:
+      label: Description
+      placeholder: Briefly describe the issue.
+    validations:
+      required: true
+  - type: textarea
+    id: Steps-to-Reproduce
+    attributes:
+      label: Steps to Reproduce
+      placeholder: "1. Go to '...'
+
+            2. Click on '...'
+
+            3. Scroll to '...'
+            
+            4. Observe the error.
+      "
+    validations:
+      required: true
+  - type: textarea
+    id: Expected-Behavior
+    attributes:
+      label: Expected Behavior
+      placeholder: "Describe what you expected to happen."
+    validations:
+      required: true
+  - type: textarea
+    id: Screenshots-or-Logs
+    attributes:
+      label: Screenshots or Logs
+      placeholder: "If applicable, attach screenshots or relevant logs to help illustrate the issue."
+  - type: textarea
+    id: Additional-Context
+    attributes:
+      label: Additional Context
+      placeholder: Add any other context about the problem here.
+  - type: markdown
+    id: Device-Details
+    attributes:
+      value: "## **Device Details**"
+  - type: input
+    id: Device
+    attributes:
+      label: Device
+      placeholder: "MacBook Air"
+  - type: input
+    id: Os-Version
+    attributes:
+      label: Operating system and version
+      placeholder: "Sequoia 15.1"
+  - type: input
+    id: cpu-arch
+    attributes:
+      label: CPU Architecture
+      placeholder: "AArch64"
+  - type: markdown
+    id: tool-used
+    attributes:
+      value: "## **Tool Used**"
+  - type: dropdown
+    id: tool-name
+    attributes:
+      label: Tool name
+      options:
+        - Install Gradle Plugin
+    validations:
+      required: true
+  - type: input
+    id: tool-version
+    attributes:
+      label: Tool version
+      placeholder: ">=2.0 / 2.0.5"
+    validations:
+      required: true
+  - type: markdown
+    id: Project-Details
+    attributes:
+      value: "## **Project Details**"
+  - type: input
+    id: Language
+    attributes:
+      label: Language
+      placeholder: "Java 21 / Kotlin 2.0"
+  - type: input
+    id: Environment-Version
+    attributes:
+      label: Environment
+      placeholder: "Android Studio Ladybug 2024.2.2"
+  - type: markdown
+    attributes:
+      value: "## **Optionally**"
+  - type: input
+    attributes:
+      label: "Link to the reproducible code repository."
+  - type: textarea
+    attributes:
+      label: Include the specific code block causing the error in a code snippet
+      render: java
