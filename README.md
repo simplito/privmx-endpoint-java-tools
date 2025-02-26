@@ -2,21 +2,28 @@
 This repository contains tools which simplify using PrivMX libraries in JVMs.
 
 ## privmx-endpoint-install-native 
-This module implements a Gradle plugin that automates the process of downloading shared libraries from https://builds.simplito.com for Privmx Endpoint Java libraries.
+The `com.simplito.privmx-endpoint-install-native` Gradle plugin automates the process of downloading
+and installing shared libraries for PrivMX Endpoint Java from [GitHub releases](https://github.com/simplito/privmx-endpoint-java/releases) assets
+into the module directory with version specified in `privmxEndpointInstallJni` task configuration.
+The downloaded libraries are installed in the `src/main/jniLibs` directory of your module.
 
-### Options
+## Options 
 
-#### - `version` (required)
+### `version` (required)
 The version of the native shared libraries to download.
 
-#### - `channel` (optional)
-Channel is part of the URL of the libraries. The default channel for libraries is `main` (https://builds.simplito.com/java/main).
+`public String version`
 
-#### - `platform` (optional)
-A list of platforms (as a pair of operating system and architecture) for which to download the native shared library.
+
+### `platforms` (optional)
+A list of platforms (as a pair of operating system and architecture) for which to download the native shared library. 
 The default is the building platform.
 
-### Usage
+`public List<PrivmxEndpointPlatform> platforms`
+
+
+## Usage
+
 1. Add `mavenCentral()` repository to your `settings.gradle`:
 
 ```groovy
@@ -31,7 +38,7 @@ pluginManagement {
 
 ```groovy
 plugins {
-    def pluginVersion = "1.0"
+    def pluginVersion = "1.1"
     id "com.simplito.privmx-endpoint-install-native" version "$pluginVersion"
 }
 ```
@@ -42,9 +49,6 @@ plugins {
 privmxEndpointInstallJni{
     version = $nativeLibVersion // Set the version of library to download, it should 
                                 // match the privmx-endpoint-java dependency version
-
-    // Set the channel of native libraries source
-    channel = "main"
 
     // Set project supported platforms to download native libraries for them.
     platforms = [
