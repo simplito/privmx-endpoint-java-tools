@@ -21,7 +21,7 @@ abstract class PrivmxEndpointNativePlugin : Plugin<Project> {
     override fun apply(project: Project) {
         //this is global for Java and Kotlin library
         project.dependencies.attributesSchema { handler ->
-            handler.attribute(myAttribute)
+            handler.attribute(PrivMXNativeTargetAttribute)
         }
 
         //If Java some code
@@ -46,7 +46,7 @@ abstract class PrivmxEndpointNativePlugin : Plugin<Project> {
                 it.name.lowercase().contains("runtimeclasspath")
             }.forEach {
                 project.configurations.getAt(it.name).attributes { handler ->
-                    handler.attribute(myAttribute, "desktop")
+                    handler.attribute(PrivMXNativeTargetAttribute, "desktop")
                 }
             }
         }
@@ -58,10 +58,10 @@ abstract class PrivmxEndpointNativePlugin : Plugin<Project> {
             project.extensions.findByType(BaseAppModuleExtension::class.java)?.let { ext ->
                 ext.applicationVariants.forEach { variant ->
                     project.configurations.getAt("${variant.name}RuntimeClasspath").attributes { handler ->
-                        handler.attribute(myAttribute, "android")
+                        handler.attribute(PrivMXNativeTargetAttribute, "android")
                     }
                     project.configurations.getAt("${variant.name}UnitTestRuntimeClasspath").attributes { handler ->
-                        handler.attribute(myAttribute, "android")
+                        handler.attribute(PrivMXNativeTargetAttribute, "android")
                     }
                 }
             }
@@ -71,7 +71,7 @@ abstract class PrivmxEndpointNativePlugin : Plugin<Project> {
                 it.name.lowercase().contains("runtimeclasspath") && it.name.lowercase().contains("android")
             }.forEach {
                 project.configurations.getAt(it.name).attributes { handler ->
-                    handler.attribute(myAttribute, "android")
+                    handler.attribute(PrivMXNativeTargetAttribute, "android")
                 }
                 println(it)
             }

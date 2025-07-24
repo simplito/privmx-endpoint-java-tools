@@ -18,15 +18,14 @@ import org.gradle.api.attributes.Attribute
 import javax.inject.Inject
 import javax.naming.spi.ObjectFactory
 
-val myAttribute: Attribute<String> = Attribute.of("com.simplito.target", String::class.java)
+val PrivMXNativeTargetAttribute: Attribute<String> =
+    Attribute.of("com.simplito.target", String::class.java)
 
 @CacheableRule
-abstract class PrivmxRule :
-    ComponentMetadataRule { //val os: String, val arch: String, val classifier: String)
+abstract class PrivmxRule : ComponentMetadataRule {
     private val nativeTargets = listOf("desktop", "android")
 
     abstract val runtimeVariantName: String
-
 
     @get:Inject
     abstract val objects: ObjectFactory
@@ -34,19 +33,19 @@ abstract class PrivmxRule :
     override fun execute(_context: ComponentMetadataContext) {
         _context.details.withVariant(runtimeVariantName) { metadata ->
             metadata.attributes { container ->
-                container.attributes.attribute(myAttribute, "none")
+                container.attributes.attribute(PrivMXNativeTargetAttribute, "none")
             }
         }
-        nativeTargets.forEach { targetDefinition ->
+        nativeTargets.forEach { targetClassifier ->
             _context.details.addVariant(
-                "${targetDefinition}-runtime",
+                "${targetClassifier}-runtime",
                 runtimeVariantName
             ) { metadata ->
                 metadata.attributes { container ->
-                    container.attributes.attribute(myAttribute, targetDefinition)
+                    container.attributes.attribute(PrivMXNativeTargetAttribute, targetClassifier)
                 }
                 metadata.withFiles { filesMetadata ->
-                    filesMetadata.addFile("${_context.details.id.name}-${_context.details.id.version}-${targetDefinition}.jar")
+                    filesMetadata.addFile("${_context.details.id.name}-${_context.details.id.version}-${targetClassifier}.jar")
                 }
             }
         }
@@ -54,12 +53,12 @@ abstract class PrivmxRule :
 }
 
 @CacheableRule
-abstract class PrivMXJavaRule: PrivmxRule() {
+abstract class PrivMXJavaRule : PrivmxRule() {
     override val runtimeVariantName: String = "runtimeElements"
 }
 
 
 @CacheableRule
-abstract class PrivMXKotlinRule: PrivmxRule() {
+abstract class PrivMXKotlinRule : PrivmxRule() {
     override val runtimeVariantName: String = "jvmRuntimeElements-published"
 }
