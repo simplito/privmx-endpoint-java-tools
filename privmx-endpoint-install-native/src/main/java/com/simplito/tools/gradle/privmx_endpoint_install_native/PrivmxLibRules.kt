@@ -22,7 +22,7 @@ val PrivMXNativeTargetAttribute: Attribute<String> =
     Attribute.of("com.simplito.target", String::class.java)
 
 @CacheableRule
-abstract class PrivmxRule : ComponentMetadataRule {
+internal abstract class PrivmxRule : ComponentMetadataRule {
     private val nativeTargets = listOf("desktop", "android")
 
     abstract val runtimeVariantName: String
@@ -53,12 +53,12 @@ abstract class PrivmxRule : ComponentMetadataRule {
 }
 
 @CacheableRule
-abstract class PrivMXJavaRule : PrivmxRule() {
+internal abstract class PrivMXJavaRule : PrivmxRule() {
     override val runtimeVariantName: String = "runtimeElements"
 }
 
 
 @CacheableRule
-abstract class PrivMXKotlinRule : PrivmxRule() {
+internal abstract class PrivMXKotlinRule : PrivmxRule() {
     override val runtimeVariantName: String = "jvmRuntimeElements-published"
 }

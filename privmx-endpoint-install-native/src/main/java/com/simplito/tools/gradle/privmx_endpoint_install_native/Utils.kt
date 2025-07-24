@@ -13,6 +13,6 @@ package com.simplito.tools.gradle.privmx_endpoint_install_native
 
 import org.gradle.api.Project
 
-fun isAGP(project: Project): Boolean{
+internal fun isAGP(project: Project): Boolean{
     return project.plugins.hasPlugin("com.android.application")
 }
