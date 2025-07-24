@@ -31,8 +31,10 @@ gradlePlugin {
 }
 
 kotlin {
-    jvmToolchain(21)
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_1_8)
+    compilerOptions{
+        jvmTarget = JvmTarget.JVM_11
     }
+}
+java{
+    targetCompatibility = JavaVersion.VERSION_11
 }
