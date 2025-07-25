@@ -22,7 +22,7 @@ pluginManagement {
 
 ```groovy
 plugins {
-    def pluginVersion = "2.0"
+    def pluginVersion = "2.0.0"
     id "com.simplito.privmx-endpoint-install-native" version "$pluginVersion"
 }
 ```
