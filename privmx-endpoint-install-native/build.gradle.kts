@@ -18,7 +18,7 @@ dependencies {
     testImplementation(libs.junit)
 }
 
-version = "2.0"
+version = "2.0.0"
 gradlePlugin {
     plugins {
         this.create("privmx-endpoint-install-native") {
