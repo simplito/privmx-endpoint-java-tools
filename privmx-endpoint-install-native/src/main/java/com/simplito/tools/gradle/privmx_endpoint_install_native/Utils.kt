@@ -1,7 +1,6 @@
-
 //
 // PrivMX Endpoint Install Native.
-// Copyright © 2024 Simplito sp. z o.o.
+// Copyright © 2025 Simplito sp. z o.o.
 //
 // This file is part of the PrivMX Platform (https://privmx.dev).
 // This software is Licensed under the MIT License.
@@ -12,8 +11,8 @@
 
 package com.simplito.tools.gradle.privmx_endpoint_install_native
 
-enum class PrivmxEndpointChannel(
-    val channel_name: String
-) {
-    MAIN("main")
+import org.gradle.api.Project
+
+internal fun isAGP(project: Project): Boolean{
+    return project.plugins.hasPlugin("com.android.application")
 }

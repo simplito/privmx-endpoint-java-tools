@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     id("com.gradle.plugin-publish") version "1.2.1"
     id("signing")
@@ -5,27 +7,34 @@ plugins {
 }
 
 //Apply script for publishing maven dependency
-//if (file("build-publish-maven.gradle.kts").exists()) {
+if (file("build-publish-maven.gradle.kts").exists()) {
     apply(from = project.file("build-publish-maven.gradle.kts"))
-//}
+}
+
 dependencies {
     implementation(gradleApi())
-    implementation("de.undercouch:gradle-download-task:5.6.0")
+    compileOnly("com.android.tools.build:gradle:8.11.0")
+    compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.0")
     testImplementation(libs.junit)
 }
 
-version = "1.1"
+version = "2.0.0"
 gradlePlugin {
     plugins {
         this.create("privmx-endpoint-install-native") {
             displayName = "privmx-endpoint-install-native"
             id = "com.simplito.privmx-endpoint-install-native"
             implementationClass =
-                "com.simplito.tools.gradle.privmx_endpoint_install_native.PrivmxEndpointInstallNativePlugin"
+                "com.simplito.tools.gradle.privmx_endpoint_install_native.PrivmxEndpointNativePlugin"
         }
     }
 }
 
 kotlin {
-    jvmToolchain(11)
+    compilerOptions{
+        jvmTarget = JvmTarget.JVM_11
+    }
+}
+java{
+    targetCompatibility = JavaVersion.VERSION_11
 }

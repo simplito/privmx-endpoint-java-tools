@@ -2,25 +2,9 @@
 This repository contains tools which simplify using PrivMX libraries in JVMs.
 
 ## privmx-endpoint-install-native 
-The `com.simplito.privmx-endpoint-install-native` Gradle plugin automates the process of downloading
-and installing shared libraries for PrivMX Endpoint Java from [GitHub releases](https://github.com/simplito/privmx-endpoint-java/releases) assets
-into the module directory with version specified in `privmxEndpointInstallJni` task configuration.
-The downloaded libraries are installed in the `src/main/jniLibs` directory of your module.
-
-## Options 
-
-### `version` (required)
-The version of the native shared libraries to download.
-
-`public String version`
-
-
-### `platforms` (optional)
-A list of platforms (as a pair of operating system and architecture) for which to download the native shared library. 
-The default is the building platform.
-
-`public List<PrivmxEndpointPlatform> platforms`
-
+The Gradle plugin automates the process of downloading native libraries artifacts and attaching
+them to `runtimeClasspath`. This plugin supports `com.simplito.java:privmx-endpoint` and
+`com.simplito.kotlin:privmx-endpoint` modules in **Java**, **Android** and **Kotlin** projects.
 
 ## Usage
 
@@ -38,23 +22,8 @@ pluginManagement {
 
 ```groovy
 plugins {
-    def pluginVersion = "1.1"
+    def pluginVersion = "2.0.0"
     id "com.simplito.privmx-endpoint-install-native" version "$pluginVersion"
-}
-```
-
-3. Configure plugin in `build.gradle`:
-
-```groovy
-privmxEndpointInstallJni{
-    version = $nativeLibVersion // Set the version of library to download, it should 
-                                // match the privmx-endpoint-java dependency version
-
-    // Set project supported platforms to download native libraries for them.
-    platforms = [
-            SupportedPlatforms.Darwin.arm64.platform,
-            *SupportedPlatforms.Android.values().platform
-    ]
 }
 ```
 
